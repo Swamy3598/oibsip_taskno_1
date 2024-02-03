@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background-color: #222;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 300px;
+        }
+
+        .screen {
+            height: 80px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 20px;
+            font-size: 1.5em;
+            color: #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+        }
+
+        button {
+            border: none;
+            padding: 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            color: #fff;
+            background-color: #333;
+        }
+
+        button.operator {
+            background-color: #ff8c00;
+        }
+
+        button.double {
+            grid-column: span 2;
+        }
+
+        button.equal {
+            background-color: #28a745;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        button.operator.double {
+            grid-column: span 2;
+        }
+    </style>
+    <title>Calculator</title>
+</head>
+<body>
+    <div class="calculator">
+        <div class="screen" id="screen">0</div>
+        <div class="buttons" onclick="calculate(event)">
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button class="operator">/</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button class="operator">*</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button class="operator">-</button>
+            <button class="double">0</button>
+            <button>Del</button>
+            <button class="equal operator">=</button>
+            <button class="operator">+</button>
+            <button class="operator" onclick="append('^')">^</button>
+            <button class="operator double" onclick="clearAll()">AC</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = '0';
+
+        function calculate(event) {
+            const clickedButton = event.target.textContent;
+
+            if (clickedButton === '=') {
+                document.getElementById('screen').textContent = eval(currentInput);
+            } else if (clickedButton === 'AC') {
+                clearAll();
+            } else if (clickedButton === 'Del') {
+                deleteLast();
+            } else if (clickedButton === 'C') {
+                currentInput = '0';
+                document.getElementById('screen').textContent = currentInput;
+            } else {
+                currentInput = currentInput === '0' ? clickedButton : currentInput + clickedButton;
+                document.getElementById('screen').textContent = currentInput;
+            }
+        }
+
+        function append(value) {
+            currentInput += value;
+            document.getElementById('screen').textContent = currentInput;
+        }
+
+        function clearAll() {
+            currentInput = '0';
+            document.getElementById('screen').textContent = currentInput;
+        }
+
+        function deleteLast() {
+            currentInput = currentInput.slice(0, -1);
+            document.getElementById('screen').textContent = currentInput || '0';
+        }
+    </script>
+</body>
+</html>
